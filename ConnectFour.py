@@ -34,7 +34,7 @@ def askColumn():
     column = int(input(f"Player {turn}- Choose Column: ")) - 1
     if column == 745979:
         print("Cheat Code Activated")
-        declareWinner(turn)
+        declareWinner()
     else:
         for y in reversed(range(ysize)):
             if grid[1,column] != " ":
@@ -50,13 +50,137 @@ def askColumn():
 
     
 def checkState(y, column):
-    #check left/right
-    horizontal = y
-   # while horizontal >= 0: #Check left
+    #check every direction
+    h = y
+    c = column
+    counth = 1
+    while c > 0: #Checks left
+        c-=1
+        if turn == 1:
+            if grid[y,c] != "X":
+                break
+            else:
+                counth +=1
+        if turn == 2:
+            if grid[y,c] != "O":
+                break
+            else: 
+                counth +=1
+    c = column
+    while c < xsize-1: #Checks Right
+        c+=1
+        if turn == 1:
+            if grid[y,c] != "X":
+                break
+            else: 
+                counth +=1
+        if turn == 2:
+            if grid[y,c] != "O":
+                break
+            else: 
+                counth +=1
+    c = column
+    countv = 1
+    while h < ysize-1: #Checks down
+        h +=1
+        if turn == 1:
+            if grid[h,c] != "X":
+                break
+            else:
+                countv+=1
+        if turn == 2:
+            if grid[h,c] != "O":
+                break
+            else:
+                countv+=1     
+    h = y  
+    while h > 0: #Checks up
+        h -= 1
+        if turn == 1:
+            if grid[h,c] != "X":
+                break
+            else:
+                countv += 1
+        if turn == 2:
+            if grid[h,c] != "O":
+                break
+            else:
+                countv += 1  
+    h = y
+    countur = 1 
+    #count diagonally up and to the right, like NorthEast, idk what to call it lmao
+    while c < xsize-1 and h > 0:
+        c += 1
+        h -= 1
+        if turn == 1:
+            if grid[h,c] != "X":
+                break
+            else: 
+                countur += 1
+        if turn == 2:
+            if grid[h,c] != "O":
+                break
+            else: 
+                countur += 1
+    c = column
+    h = y
+    #count down and to the left
+    while c > 0 and h < ysize -1:
+        c -= 1
+        h += 1
+        if turn == 1:
+            if grid[h,c] != "X":
+                break
+            else: 
+                countur += 1
+        if turn == 2:
+            if grid[h,c] != "O":
+                break
+            else: 
+                countur += 1
+    c = column
+    h = y
 
-def declareWinner(i):
+    countdr = 1
+    #count down and to the right
+    while c < xsize-1 and h < ysize-1:
+        c += 1
+        h += 1
+        if turn == 1:
+            if grid[h,c] != "X":
+                break
+            else: 
+                countdr += 1
+        if turn == 2:
+            if grid[h,c] != "O":
+                break
+            else: 
+                countdr += 1
+    c = column
+    h = y
+    #count up and to the left
+    while c > 0 and h > 0:
+        c -= 1
+        h -= 1
+        if turn == 1:
+            if grid[h,c] != "X":
+                break
+            else: 
+                countdr += 1
+        if turn == 2:
+            if grid[h,c] != "O":
+                break
+            else: 
+                countdr += 1
+    if countdr >=4 or countur >=4 or counth >=4 or countv >=4:
+        declareWinner()
+
+
+def declareWinner():
     gameActive = False
-    print(f"Player {i} wins!")
+    for i in range(5): print()
+    print(grid)
+    print(f"Player {turn} wins!")
     LastMessage = input("Type 'Exit' to end Connect-4, type anything else to reset: ")
     if LastMessage.lower().replace(" ","") == "exit":
         sys.exit()
