@@ -31,11 +31,18 @@ def cycle():
 
 
 def askColumn():
-    column = int(input(f"Player {turn}- Choose Column: ")) - 1
-    if column == 745979:
-        print("Cheat Code Activated")
-        declareWinner()
+    try:
+        column = int(input(f"Player {turn}- Choose Column: ")) - 1
+        if column == 745980:
+            sys.exit()
+    except ValueError:
+        print("Error: Input must be an Integer")
+        askColumn()
     else:
+        if column < 0 or column > 6:
+            print("Error: Input must be within range (1-7)")
+            askColumn()
+            return
         for y in reversed(range(ysize)):
             if grid[1,column] != " ":
                 for i in range(5): print()
