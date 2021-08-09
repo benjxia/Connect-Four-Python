@@ -1,6 +1,6 @@
 import numpy as np
+import os
 import sys
-
 
 turn  = 1# 1 = Player 1 (X), 2 = Player 2 (O)
 xsize = 7
@@ -33,7 +33,7 @@ def cycle():
 def askColumn():
     try:
         column = int(input(f"Player {turn}- Choose Column: ")) - 1
-        if column == 745980:
+        if column == 745979:
             sys.exit()
     except ValueError:
         print("Error: Input must be an Integer")
@@ -196,10 +196,17 @@ def declareWinner():
         
 
 def reset():
-    for y in range(1,ysize):
-        for x in range(0,xsize):
+    global turn
+    global gameActive
+
+    for y in range(1, ysize):
+        for x in range(xsize):
             grid[y,x] = " "
-    main()
+    turn = 2 #the thing in cycle() will make the next turn be player 1's even though this changes it to player 2
+    gameActive = True
+
+    
+    
 
 
 main()
